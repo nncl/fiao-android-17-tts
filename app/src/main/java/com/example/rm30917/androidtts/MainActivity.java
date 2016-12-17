@@ -11,10 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextToSpeech.OnInitListener {
 
     private TextToSpeech tts;
     private int REQUEST_TTS = 0;
@@ -25,6 +26,12 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button btnFalar = (Button) findViewById(R.id.btnFalar);
+        btnFalar.setOnClickListener(this);
+
+        Button btnEscutar = (Button) findViewById(R.id.btnEscutar);
+        btnEscutar.setOnClickListener(this);
 
         txtSpeechInput = (TextView) findViewById(R.id.edtTexto);
 
@@ -87,13 +94,19 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         }
     }
 
-    public void doFalar(View view) {
-        EditText etTexto = (EditText) findViewById(R.id.edtTexto);
-        String texto = etTexto.getText().toString();
-        falar(texto);
-    }
+    @Override
+    public void onClick(View view) {
 
-    public void doListen(View view) {
-        escutar();
+        switch (view.getId()) {
+            case R.id.btnFalar:
+                EditText etTexto = (EditText) findViewById(R.id.edtTexto);
+                String texto = etTexto.getText().toString();
+                falar(texto);
+                break;
+            default :
+                escutar();
+                break;
+        }
+
     }
 }
